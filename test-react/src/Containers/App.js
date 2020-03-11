@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Person from "./Person/Person";
+import Persons from "../Components/Persons/Persons";
 import "./App.css";
-import person from "./Person/Person";
 
 const StyledButton = styled.button`
   background-color: ${props => (props.alt ? "red" : "green")};
@@ -64,7 +63,6 @@ class App extends Component {
   };
 
   deletePersonHandler = personIndex => {
-    // const persons = this.state.persons.splice();
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({ persons: persons });
@@ -79,40 +77,17 @@ class App extends Component {
   };
 
   render() {
-    // const style = {
-    //   backgroundColor: "green",
-    //   color: "white",
-    //   font: "inherit",
-    //   border: "1px solid blue",
-    //   padding: "8px",
-    //   ":hover": {
-    //     backgroundColor: "lightgreen",
-    //     color: "black"
-    //   }
-    // };
-
     let persons = null;
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map((p, index) => {
-            return (
-              <Person
-                name={p.name}
-                age={p.age}
-                key={p.key}
-                click={() => this.deletePersonHandler(index)}
-                changed={event => this.nameChangeHandler(event, index)}
-              />
-            );
-          })}
+          <Persons
+            persons={this.state.persons}
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangeHandler}
+          />
         </div>
       );
-      // style.backgroundColor = "red";
-      // style[":hover"] = {
-      //   backgroundColor: "salmon",
-      //   color: "black"
-      // };
     }
 
     const classes = [];
@@ -124,7 +99,7 @@ class App extends Component {
         <h1 className="App-intro">Hi, I'm a React App!</h1>
         <p className={classes.join(" ")}>This is really working!</p>
         <StyledButton
-          alt={this.state.showPersons}
+          alt={this.state.showPersons ? 1 : 0}
           onClick={this.togglePersonsHandler}
         >
           Click Me!
