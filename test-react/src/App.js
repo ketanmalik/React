@@ -1,9 +1,21 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 import Person from "./Person/Person";
-import logo from "./logo.svg";
 import "./App.css";
 import person from "./Person/Person";
 
+const StyledButton = styled.button`
+  background-color: ${props => (props.alt ? "red" : "green")};
+  color: white;
+  font: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+
+  &:hover {
+    background-color: ${props => (props.alt ? "salmon" : "lightgreen")};
+    color: black;
+  }
+`;
 class App extends Component {
   state = {
     persons: [
@@ -67,12 +79,17 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: "white",
-      font: "inherit",
-      border: "1px solid blue",
-      padding: "8px"
-    };
+    // const style = {
+    //   backgroundColor: "green",
+    //   color: "white",
+    //   font: "inherit",
+    //   border: "1px solid blue",
+    //   padding: "8px",
+    //   ":hover": {
+    //     backgroundColor: "lightgreen",
+    //     color: "black"
+    //   }
+    // };
 
     let persons = null;
     if (this.state.showPersons) {
@@ -91,13 +108,27 @@ class App extends Component {
           })}
         </div>
       );
+      // style.backgroundColor = "red";
+      // style[":hover"] = {
+      //   backgroundColor: "salmon",
+      //   color: "black"
+      // };
     }
+
+    const classes = [];
+    if (this.state.persons.length <= 2) classes.push("red");
+    if (this.state.persons.length <= 1) classes.push("bold");
+
     return (
       <div className="App">
-        <h1 className="App-intro">First React App</h1>
-        <button style={style} onClick={this.togglePersonsHandler}>
+        <h1 className="App-intro">Hi, I'm a React App!</h1>
+        <p className={classes.join(" ")}>This is really working!</p>
+        <StyledButton
+          alt={this.state.showPersons}
+          onClick={this.togglePersonsHandler}
+        >
           Click Me!
-        </button>
+        </StyledButton>
         {persons}
       </div>
     );
