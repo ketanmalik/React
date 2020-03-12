@@ -18,14 +18,17 @@ const StyledDiv = styled.div`
   }
 `;
 class Person extends Component {
+  static contextType = AuthContext;
+
   render() {
     return (
       <Aux>
-        <AuthContext.Consumer>
-          {context =>
-            context.authenticated ? <p>Authenticated</p> : <p>Please log in</p>
-          }
-        </AuthContext.Consumer>
+        {this.context.authenticated ? (
+          <p>Authenticated</p>
+        ) : (
+          <p>Please log in</p>
+        )}
+
         <p onClick={this.props.clicked}>
           I'm {this.props.name}. My age is {this.props.age} years old.
         </p>
