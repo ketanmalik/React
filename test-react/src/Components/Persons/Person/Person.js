@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Aux from "../../../hoc/Aux";
 import withClass from "../../../hoc/withClass";
+import PropTypes from "prop-types";
+import AuthContext from "../../../context/auth-context";
 
 const StyledDiv = styled.div`
   width: 60%;
@@ -19,6 +21,11 @@ class Person extends Component {
   render() {
     return (
       <Aux>
+        <AuthContext.Consumer>
+          {context =>
+            context.authenticated ? <p>Authenticated</p> : <p>Please log in</p>
+          }
+        </AuthContext.Consumer>
         <p onClick={this.props.clicked}>
           I'm {this.props.name}. My age is {this.props.age} years old.
         </p>
@@ -32,5 +39,12 @@ class Person extends Component {
     );
   }
 }
+
+Person.propTypes = {
+  click: PropTypes.func,
+  name: PropTypes.string,
+  age: PropTypes.number,
+  changed: PropTypes.func
+};
 
 export default withClass(Person);

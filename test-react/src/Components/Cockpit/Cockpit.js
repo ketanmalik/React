@@ -1,4 +1,5 @@
-import React, { useEffect, memo } from "react";
+import React, { useEffect, memo, useRef } from "react";
+import AuthContext from "../../context/auth-context";
 import styled from "styled-components";
 import "./Cockpit.css";
 
@@ -16,8 +17,10 @@ const StyledButton = styled.button`
 `;
 
 const cockpit = props => {
+  const toggleBtnRef = useRef(null);
   useEffect(() => {
     console.log("Cockpit persons changed");
+    toggleBtnRef.current.click();
   }, [props.persons]);
   const classes = [];
   if (props.persons <= 2) classes.push("red");
@@ -26,9 +29,16 @@ const cockpit = props => {
     <div>
       <h1 className="App-intro">Hi, I'm a React App!</h1>
       <p className={classes.join(" ")}>This is really working!</p>
-      <StyledButton alt={props.showPersons ? 1 : 0} onClick={props.clicked}>
+      <StyledButton
+        alt={props.showPersons ? 1 : 0}
+        onClick={props.clicked}
+        ref={toggleBtnRef}
+      >
         Click Me!
       </StyledButton>
+      <AuthContext.Consumer>
+        {context => <StyledButton onClick={context.login}>Log in</StyledButton>}
+      </AuthContext.Consumer>
     </div>
   );
 };

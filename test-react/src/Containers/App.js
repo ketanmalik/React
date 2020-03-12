@@ -3,6 +3,7 @@ import Persons from "../Components/Persons/Persons";
 import Cockpit from "../Components/Cockpit/Cockpit";
 import withClass from "../hoc/withClass";
 import Aux from "../hoc/Aux";
+import AuthContext from "../context/auth-context";
 import "./App.css";
 
 class App extends Component {
@@ -30,7 +31,8 @@ class App extends Component {
       }
     ],
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    authenticated: false
   };
 
   buttonHandler = name => {
@@ -53,8 +55,8 @@ class App extends Component {
   };
 
   togglePersonsHandler = () => {
-    this.setState({
-      showPersons: !this.state.showPersons
+    this.setState((prevState, props) => {
+      return { showPersons: !prevState.showPersons };
     });
   };
 
@@ -90,6 +92,9 @@ class App extends Component {
     console.log("App componentDidUpdate");
   }
 
+  loginHandler = () => {
+    this.setState({ authenticated: true });
+  };
   render() {
     console.log("App render");
     let persons = null;
@@ -107,19 +112,28 @@ class App extends Component {
       <Aux>
         <button
           onClick={() =>
-            this.setState({ showCockpit: !this.state.showCockpit })
+            this.setState((prevState, props) => {
+              return { showCockpit: !prevState.showCockpit };
+            })
           }
         >
-          Remove Cockpit
+          Toggle Cockpit
         </button>
-        {this.state.showCockpit ? (
-          <Cockpit
-            persons={this.state.persons.length}
-            showPersons={this.state.showPersons}
-            clicked={this.togglePersonsHandler}
-          />
-        ) : null}
-        {persons}
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler
+          }}
+        >
+          {this.state.showCockpit ? (
+            <Cockpit
+              persons={this.state.persons.length}
+              showPersons={this.state.showPersons}
+              clicked={this.togglePersonsHandler}
+            />
+          ) : null}
+          {persons}
+        </AuthContext.Provider>
       </Aux>
     );
   }
