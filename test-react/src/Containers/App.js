@@ -4,6 +4,11 @@ import Cockpit from "../Components/Cockpit/Cockpit";
 import "./App.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log("constructor");
+  }
+
   state = {
     persons: [
       {
@@ -64,7 +69,17 @@ class App extends Component {
     this.setState({ persons: persons });
   };
 
+  static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedState");
+    console.log(props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log("didMount");
+  }
   render() {
+    console.log("App render");
     let persons = null;
     if (this.state.showPersons) {
       persons = (

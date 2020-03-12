@@ -16,6 +16,7 @@ const StyledButton = styled.button`
 `;
 
 const cockpit = props => {
+  console.log("cockpit");
   const classes = [];
   if (props.persons.length <= 2) classes.push("red");
   if (props.persons.length <= 1) classes.push("bold");
