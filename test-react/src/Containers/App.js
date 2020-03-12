@@ -78,6 +78,15 @@ class App extends Component {
   componentDidMount() {
     console.log("didMount");
   }
+
+  shouldComponentUpdate() {
+    console.log("App shouldComponentUpdate");
+    return true;
+  }
+  componentDidUpdate() {
+    console.log("App componentDidUpdate");
+  }
+
   render() {
     console.log("App render");
     let persons = null;
