@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import styled from "styled-components";
 import "./Cockpit.css";
 
@@ -20,8 +20,8 @@ const cockpit = props => {
     console.log("Cockpit persons changed");
   }, [props.persons]);
   const classes = [];
-  if (props.persons.length <= 2) classes.push("red");
-  if (props.persons.length <= 1) classes.push("bold");
+  if (props.persons <= 2) classes.push("red");
+  if (props.persons <= 1) classes.push("bold");
   return (
     <div>
       <h1 className="App-intro">Hi, I'm a React App!</h1>
@@ -33,4 +33,4 @@ const cockpit = props => {
   );
 };
 
-export default cockpit;
+export default React.memo(cockpit);
