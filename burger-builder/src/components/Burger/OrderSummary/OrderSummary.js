@@ -1,32 +1,34 @@
-import React from "react";
+import React, { Component } from "react";
 import Aux from "../../../hoc/Aux";
 import Button from "../../../UI/Button/Button";
 
-const orderSummary = props => {
-  const summary = Object.keys(props.ingredients).map(ing => {
+class OrderSummary extends Component {
+  render() {
+    const summary = Object.keys(this.props.ingredients).map(ing => {
+      return (
+        <li key={ing}>
+          <span style={{ textTransform: "capitalize" }}>{ing}</span>:{" "}
+          {this.props.ingredients[ing]}
+        </li>
+      );
+    });
     return (
-      <li key={ing}>
-        <span style={{ textTransform: "capitalize" }}>{ing}</span>:{" "}
-        {props.ingredients[ing]}
-      </li>
+      <Aux>
+        <h3>Order Summary</h3>
+        <p>Build you own Burger:</p>
+        <ul>{summary}</ul>
+        <p>
+          <strong>Price: $ {this.props.price.toFixed(2)}</strong>
+        </p>
+        <Button btnType="Danger" clicked={this.props.purchaseCancelHandler}>
+          Cancel
+        </Button>
+        <Button btnType="Success" clicked={this.props.purchaseContinueHandler}>
+          Order
+        </Button>
+      </Aux>
     );
-  });
-  return (
-    <Aux>
-      <h3>Order Summary</h3>
-      <p>Build you own Burger:</p>
-      <ul>{summary}</ul>
-      <p>
-        <strong>Price: $ {props.price.toFixed(2)}</strong>
-      </p>
-      <Button btnType="Danger" clicked={props.purchaseCancelHandler}>
-        Cancel
-      </Button>
-      <Button btnType="Success" clicked={props.purchaseContinueHandler}>
-        Order
-      </Button>
-    </Aux>
-  );
-};
+  }
+}
 
-export default orderSummary;
+export default OrderSummary;
