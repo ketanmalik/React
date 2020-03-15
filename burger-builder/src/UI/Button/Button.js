@@ -3,7 +3,7 @@ import classes from "./Button.module.css";
 
 const button = props => {
   const btnType =
-    props.btnType == "Danger"
+    props.btnType === "Danger"
       ? `${classes.Button} ${classes.Danger}`
       : `${classes.Button} ${classes.Success}`;
   return (

@@ -4,6 +4,8 @@ import Burger from "../components/Burger/Burger";
 import BuildControls from "../components/BuildControls/BuildControls";
 import Modal from "../UI/Modal/Modal";
 import OrderSummary from "../components/Burger/OrderSummary/OrderSummary";
+import Spinner from "../UI/Spinner/Spinner";
+import axios from "../axios-orders";
 
 const INGREDIENT_PRICES = {
   salad: 0.3,
@@ -22,7 +24,8 @@ class BurgerBuilder extends Component {
     },
     totalPrice: 3,
     purchasable: false,
-    purchased: false
+    purchased: false,
+    processing: false
   };
 
   addIngredientHandler = type => {
@@ -76,7 +79,34 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    console.log("purchased");
+    this.setState({ processing: true });
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: "Ketan",
+        address: {
+          street: "11 Tetlow Street",
+          apt: "53",
+          zip: "02115",
+          city: "Boston",
+          state: "MA",
+          country: "USA"
+        },
+        email: "ketanmalik@gmail.com",
+        phone: "8572078509"
+      }
+    };
+    axios
+      .post("/orders.json", order)
+      .then(resp => {
+        console.log(resp);
+        this.setState({ processing: false, purchased: false });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ processing: false, purchased: false });
+      });
   };
 
   render() {
@@ -84,15 +114,23 @@ class BurgerBuilder extends Component {
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
+
+    let orderSummary = (
+      <OrderSummary
+        ingredients={this.state.ingredients}
+        purchaseCancelHandler={this.modalCloseHandler}
+        purchaseContinueHandler={this.purchaseContinueHandler}
+        price={this.state.totalPrice}
+      />
+    );
+
+    if (this.state.processing) {
+      orderSummary = <Spinner />;
+    }
     return (
       <Aux>
         <Modal show={this.state.purchased} modalClosed={this.modalCloseHandler}>
-          <OrderSummary
-            ingredients={this.state.ingredients}
-            purchaseCancelHandler={this.modalCloseHandler}
-            purchaseContinueHandler={this.purchaseContinueHandler}
-            price={this.state.totalPrice}
-          />
+          {orderSummary}
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
