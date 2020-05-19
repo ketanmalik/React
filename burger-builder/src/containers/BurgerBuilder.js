@@ -12,7 +12,7 @@ const INGREDIENT_PRICES = {
   salad: 0.3,
   cheese: 0.5,
   meat: 1,
-  bacon: 1.3
+  bacon: 1.3,
 };
 
 class BurgerBuilder extends Component {
@@ -22,10 +22,10 @@ class BurgerBuilder extends Component {
     purchasable: false,
     purchased: false,
     processing: false,
-    error: false
+    error: false,
   };
 
-  addIngredientHandler = type => {
+  addIngredientHandler = (type) => {
     const updatedCount = this.state.ingredients[type] + 1;
     const updatedIngredients = { ...this.state.ingredients };
     updatedIngredients[type] = updatedCount;
@@ -34,12 +34,12 @@ class BurgerBuilder extends Component {
     const updatedPrice = oldPrice + ingredientPrice;
     this.setState({
       ingredients: updatedIngredients,
-      totalPrice: updatedPrice
+      totalPrice: updatedPrice,
     });
     this.purchasableHandler(updatedIngredients);
   };
 
-  removeIngredientHandler = type => {
+  removeIngredientHandler = (type) => {
     if (this.state.ingredients[type] === 0) {
       return;
     }
@@ -51,14 +51,14 @@ class BurgerBuilder extends Component {
     const updatedPrice = oldPrice - ingredientPrice;
     this.setState({
       ingredients: updatedIngredients,
-      totalPrice: updatedPrice
+      totalPrice: updatedPrice,
     });
     this.purchasableHandler(updatedIngredients);
   };
 
   purchasableHandler(ingredients) {
     const sum = Object.keys(ingredients)
-      .map(k => {
+      .map((k) => {
         return ingredients[k];
       })
       .reduce((prev, curr) => {
@@ -76,40 +76,26 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    this.setState({ processing: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Ketan",
-        address: {
-          street: "11 Tetlow Street",
-          apt: "53",
-          zip: "02115",
-          city: "Boston",
-          state: "MA",
-          country: "USA"
-        },
-        email: "ketanmalik@gmail.com",
-        phone: "8572078509"
-      }
-    };
-    axios
-      .post("/orders.json", order)
-      .then(resp => {
-        console.log(resp);
-        this.setState({ processing: false, purchased: false });
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ processing: false, purchased: false });
-      });
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
+    }
+    queryParams.push("price=" + this.state.totalPrice);
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString,
+    });
   };
 
   componentDidMount() {
     axios
       .get("https://burger-builder-dbs.firebaseio.com/ingredients/.json")
-      .then(resp => {
+      .then((resp) => {
         this.setState({ error: false });
         this.setState({ ingredients: resp.data });
       })
