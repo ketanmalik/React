@@ -13,7 +13,7 @@ const checkoutSummary = (props) => (
       Cancel
     </Button>
     <Button btnType="Success" clicked={props.checkoutContniue}>
-      Continue
+      Submit
     </Button>
   </div>
 );
