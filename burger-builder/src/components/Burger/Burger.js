@@ -2,19 +2,22 @@ import React from "react";
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 import classes from "./Burger.module.css";
 
-const burger = props => {
-  let transformedIngredients = Object.keys(props.ingredients)
-    .map(ing => {
-      return [...Array(props.ingredients[ing])].map((_, i) => {
-        return <BurgerIngredient key={ing + i} type={ing} />;
-      });
-    })
-    .reduce((prev, curr) => {
-      return prev.concat(curr);
-    }, []);
+const burger = (props) => {
+  let transformedIngredients = null;
+  if (props.ingredients) {
+    transformedIngredients = Object.keys(props.ingredients)
+      .map((ing) => {
+        return [...Array(props.ingredients[ing])].map((_, i) => {
+          return <BurgerIngredient key={ing + i} type={ing} />;
+        });
+      })
+      .reduce((prev, curr) => {
+        return prev.concat(curr);
+      }, []);
 
-  if (transformedIngredients.length === 0) {
-    transformedIngredients = <p>Please start adding ingredients</p>;
+    if (transformedIngredients.length === 0) {
+      transformedIngredients = <p>Please start adding ingredients</p>;
+    }
   }
 
   return (
