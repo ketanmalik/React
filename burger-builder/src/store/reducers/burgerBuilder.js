@@ -6,6 +6,7 @@ const INGREDIENT_PRICES = {
   cheese: 0.5,
   meat: 1,
   bacon: 1.3,
+  building: false,
 };
 
 const initialState = {
@@ -27,6 +28,7 @@ const reducer = (state = initialState, action) => {
       const updatedState = {
         ingredients: updatedIngredients,
         price: state.price + INGREDIENT_PRICES[action.ingredientName],
+        building: true,
       };
       return updateObject(state, updatedState);
     }
@@ -38,6 +40,7 @@ const reducer = (state = initialState, action) => {
           [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
         },
         price: state.price - INGREDIENT_PRICES[action.ingredientName],
+        building: true,
       };
     }
     case actionTypes.SET_INGREDIENTS: {
@@ -51,6 +54,7 @@ const reducer = (state = initialState, action) => {
         },
         errror: false,
         price: 3,
+        building: false,
       };
     }
     case actionTypes.FETCH_INGREDIENTS_FAILED: {
