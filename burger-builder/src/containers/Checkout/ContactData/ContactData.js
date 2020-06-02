@@ -133,7 +133,6 @@ class ContactData extends Component {
         break;
       }
     }
-    console.log(formIsValid);
     this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
   };
 
