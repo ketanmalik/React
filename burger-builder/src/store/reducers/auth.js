@@ -10,7 +10,6 @@ const initialState = {
 };
 
 const authStart = (state, action) => {
-  console.log(state);
   return updateObject(state, { error: null, loading: true });
 };
 
