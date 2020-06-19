@@ -15,6 +15,7 @@
   box-shadow: inset -15px 0 #c15711;
   margin: 2% auto;
   position: relative;
+  margin-top: 15%;
 }
 
 .Seeds1 {
@@ -109,4 +110,10 @@
   height: 3%;
   background: linear-gradient(#bf3813, #c45e38);
   margin: 2% auto;
+}
+
+@media (max-height: 666px) {
+  .BreadTop {
+    margin: 2% auto;
+  }
 }

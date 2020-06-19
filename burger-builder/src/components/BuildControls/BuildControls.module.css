@@ -7,6 +7,7 @@
   box-shadow: 0 2px 1px #ccc;
   margin: auto;
   padding: 10px 0;
+  height: 45vh;
 }
 
 .OrderButton {
@@ -48,5 +49,23 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+
+@media (min-height: 1366px) {
+  .BuildControls {
+    height: 48vh;
+  }
+}
+
+@media (min-height: 730px) and (max-height: 775px) {
+  .BuildControls {
+    height: 46vh;
+  }
+}
+
+@media (max-height: 650px) {
+  .BuildControls {
+    height: 56vh;
   }
 }
