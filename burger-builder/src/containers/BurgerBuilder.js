@@ -6,9 +6,11 @@ import BuildControls from "../components/BuildControls/BuildControls";
 import Modal from "../UI/Modal/Modal";
 import OrderSummary from "../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../UI/Spinner/Spinner";
+import Button from "../UI/Button/Button";
 import axios from "../axios-orders";
 import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler";
 import * as actions from "../store/actions/index";
+import classes from "./BurgerBuilder.module.css";
 
 class BurgerBuilder extends Component {
   state = {
@@ -91,6 +93,16 @@ class BurgerBuilder extends Component {
           {orderSummary}
         </Modal>
         {burger}
+        <div
+          className={classes.CheckoutBackdrop}
+          style={{ display: this.props.purchased ? "" : "none" }}
+        >
+          <div className={classes.CheckoutModal}>
+            <h3>Purchase Successful</h3>
+            <p>Your order has been placed successfully!</p>
+            <Button clicked={this.props.onCheckoutModalHandler}>Close</Button>
+          </div>
+        </div>
       </Aux>
     );
   }
@@ -102,6 +114,7 @@ const mapStateToProps = (state) => {
     price: state.burgerBuilder.price,
     error: state.burgerBuilder.error,
     isAuth: state.auth.token !== null,
+    purchased: state.order.purchased,
   };
 };
 
@@ -115,6 +128,7 @@ const mapDispatchToProps = (dispatch) => {
     onInitPurchase: () => dispatch(actions.purchaseInit()),
     onSetAuthRedirectPath: (path) =>
       dispatch(actions.setAuthRedirectPath(path)),
+    onCheckoutModalHandler: () => dispatch(actions.checkoutModalClose()),
   };
 };
 

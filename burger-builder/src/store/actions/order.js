@@ -79,3 +79,7 @@ export const fetchOrders = (token, userId) => {
       });
   };
 };
+
+export const checkoutModalClose = () => {
+  return { type: actionTypes.CLOSE_CHECKOUT_MODAL };
+};
